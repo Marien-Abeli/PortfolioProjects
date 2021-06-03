@@ -1,3 +1,8 @@
+/*
+Covid 19 Data Exploration 
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+*/
+
 SELECT *
 FROM ProjectPortfolio.dbo.CovidDeaths
 WHERE continent is not null
@@ -26,7 +31,7 @@ ORDER BY 1,2
 
 
 -- Looking at Total Cases VS Population
--- Shows What percentage of population got covid
+-- Shows What percentage of population infected with covid
 
 SELECT location, date, population, total_cases,(total_cases/population)*100 AS PercentPopulationInfected
 FROM ProjectPortfolio.dbo.CovidDeaths
@@ -77,6 +82,7 @@ ORDER BY 1,2
 
 
 -- Looking at Total population VS Vaccinations
+-- Shows Percentage of Population that has received at least one Covid Vaccine
 
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CAST(vac.new_vaccinations as int)) OVER (Partition by dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
@@ -89,7 +95,7 @@ WHERE dea.continent is not null
 ORDER BY 2,3
 
 
--- USE CTE
+-- USE CTE to perform Calculation on Partition By in previous query
 
 With PopVsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
 as
@@ -110,7 +116,7 @@ FROM PopVsVac
 
 
 
---TEMP TABLE 
+--USE TEMP TABLE to perform Calculation on Partition By in previous query
 
 DROP Table if exists #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated
