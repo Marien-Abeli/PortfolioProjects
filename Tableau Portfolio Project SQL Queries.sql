@@ -64,9 +64,3 @@ where continent is not null
 --order by 1,2
 
 
-CREATE View Pourcentage AS
-Select continent, Location, date, population, total_cases,total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
-From ProjectPortfolio.dbo.CovidDeaths
---Where location like '%states%'
-where continent is not null 
---order by 1,2
